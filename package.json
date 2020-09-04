@@ -1,0 +1,22 @@
+{
+  "name": "vibe_check",
+  "version": "1.0.0",
+  "description": "A project displaying key information on major companies",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0rnella/vibe_check.git"
+  },
+  "author": "Ornella Friggit",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/0rnella/vibe_check/issues"
+  },
+  "homepage": "https://github.com/0rnella/vibe_check#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
