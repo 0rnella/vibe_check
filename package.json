@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint .",
     "start": "nodemon index.js",
-    "startdb": "node database_setup.js",
+    "startdb": "node database/database_setup.js",
     "test": "test"
   },
   "repository": {
