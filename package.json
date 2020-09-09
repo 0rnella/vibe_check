@@ -5,9 +5,11 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint .",
-    "start": "nodemon index.js",
+    "start-dev": "NODE_ENV=development nodemon index.js",
     "startdb": "node database/database_setup.js",
-    "test": "test"
+    "create-env": "touch .env",
+    "add-env-content": "echo 'AIRTABLE_KEY=' >.env",
+    "env-setup": "touch .env & echo 'AIRTABLE_KEY=' >.env"
   },
   "repository": {
     "type": "git",
@@ -21,6 +23,7 @@
   "homepage": "https://github.com/0rnella/vibe_check#readme",
   "dependencies": {
     "airtable": "^0.9.0",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "nodemon": "^2.0.4",
     "pg": "^8.3.3",
