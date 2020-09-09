@@ -7,23 +7,24 @@ const Lawsuits = sequelizeDb.define(
 	'Lawsuits',
 	{
 		lawsuitsPerYear: {
-			type: DataTypes.NUM,
+			type: DataTypes.NUMBER,
 			allowNull: true
 		},
+
 		settlementsPerYear: {
-			type: DataTypes.NUM,
+			type: DataTypes.NUMBER,
 			// if you dont leave allowNull to false it will
 			// default to true
 			allowNull: true
 		},
 
 		amountSettlementPerYear: {
-			type: DataTypes.NUM,
+			type: DataTypes.NUMBER,
 			allowNull: true
 		},
 
 		civilLawsuitsPerYear: {
-			type: DataTypes.NUM,
+			type: DataTypes.NUMBER,
 			allowNull: true
 		},
 
