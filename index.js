@@ -1,5 +1,5 @@
 const express = require('express');
-const { getAllCompanies } = require('./apiMethods');
+const { getAllCompanies, getOneCompany } = require('./apiMethods');
 
 const app = express();
 const port = 8000;
@@ -8,10 +8,25 @@ app.get('/', (req, res) => {
 	res.send('VIBE CHECK!');
 });
 
-app.get('/companies', async (req, res) => {
+app.get('/companies', async (req, res, next) => {
 	// get all the companies info
-	const companies = await getAllCompanies();
-	res.send(companies);
+	try {
+		const companies = await getAllCompanies();
+		res.send(companies);
+	} catch (error) {
+		next(error);
+	}
+});
+
+app.get('/companies/:id', async (req, res, next) => {
+	// get all the companies info
+	try {
+		const { id } = req.params;
+		const companies = await getOneCompany(id);
+		res.send(companies);
+	} catch (error) {
+		next(error);
+	}
 });
 
 // Make function for the node server to start (listen)
