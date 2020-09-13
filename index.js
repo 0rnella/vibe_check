@@ -22,8 +22,8 @@ app.get('/companies/:id', async (req, res, next) => {
 	// get all the companies info
 	try {
 		const { id } = req.params;
-		const companies = await getOneCompany(id);
-		res.send(companies);
+		const company = await getOneCompany(id);
+		res.send(company);
 	} catch (error) {
 		next(error);
 	}
