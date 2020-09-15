@@ -1,5 +1,5 @@
 const express = require('express');
-const { getAllCompanies, getOneCompany } = require('./apiMethods');
+const { getAllCompanies, getOneCompany, getCompanyDemographics } = require('./apiMethods');
 
 const app = express();
 const port = 8000;
@@ -23,6 +23,11 @@ app.get('/companies/:id', async (req, res, next) => {
 	try {
 		const { id } = req.params;
 		const company = await getOneCompany(id);
+
+		const demId = company.Demographics[0];
+		const demographics = await getCompanyDemographics(demId);
+		company.demographics = demographics;
+
 		res.send(company);
 	} catch (error) {
 		next(error);
