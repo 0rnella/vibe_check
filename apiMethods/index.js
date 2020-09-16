@@ -1,10 +1,7 @@
-const { getAllCompanies, getOneCompany } = require('./companies');
-const { getCompanyDemographics } = require('./demographics');
-const { getCompanyLawsuits } = require('./lawsuits');
+const { getAllCompanies, getOneCompany, getLinkedData } = require('./companies');
 
 module.exports = {
 	getAllCompanies,
 	getOneCompany,
-	getCompanyDemographics,
-	getCompanyLawsuits
+	getLinkedData
 };

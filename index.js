@@ -1,6 +1,8 @@
 const express = require('express');
 const {
-	getAllCompanies, getOneCompany, getCompanyDemographics, getCompanyLawsuits
+	getAllCompanies,
+	getOneCompany,
+	getLinkedData
 } = require('./apiMethods');
 
 const app = express();
@@ -26,12 +28,18 @@ app.get('/companies/:id', async (req, res, next) => {
 		const { id } = req.params;
 		const company = await getOneCompany(id);
 
-		const demId = company.Demographics[0];
-		const lawId = company.Lawsuits[0];
-		const demographics = await getCompanyDemographics(demId);
-		const lawsuits = await getCompanyLawsuits(lawId);
-		company.demographics = demographics;
-		company.lawsuits = lawsuits;
+		// list each key that we want as a string
+		const companyTables = ['Demographics', 'Lawsuits', 'Labor Practices', 'Political Contributions', 'Effect on Ecosystem'];
+
+		for (let i = 0; i < companyTables.length; i++) {
+			const tableName = companyTables[i]; // Demographics
+			const tableId = company[tableName][0];
+
+			const tableData = await getLinkedData(tableName, tableId);
+
+			// setting it back on the company object
+			company[tableName] = tableData;
+		}
 
 		res.send(company);
 	} catch (error) {

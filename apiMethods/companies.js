@@ -29,7 +29,16 @@ const getOneCompany = async (id) => {
 	return company;
 };
 
+const getLinkedData = async (tableName, id) => {
+	// now get the actual data in here
+	const { fields } = await base(tableName).find(id);
+	delete fields.name;
+	delete fields.company;
+	return fields;
+};
+
 module.exports = {
 	getAllCompanies,
-	getOneCompany
+	getOneCompany,
+	getLinkedData
 };
