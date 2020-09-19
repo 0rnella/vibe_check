@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint .",
     "start-dev": "NODE_ENV=development nodemon index.js",
-    "start": "npm i & node index.js",
+    "start": "node index.js",
     "startdb": "node database/database_setup.js",
     "env-setup": "touch .env & echo 'AIRTABLE_KEY=' >.env"
   },
