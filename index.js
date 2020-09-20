@@ -15,6 +15,9 @@ app.get('/', (req, res) => {
 app.get('/companies', async (req, res, next) => {
 	// get all the companies info
 	try {
+		// set header to allow other people to view response
+		res.setHeader('Access-Control-Allow-Origin', '*');
+
 		const companies = await getAllCompanies();
 		res.send(companies);
 	} catch (error) {
@@ -25,6 +28,9 @@ app.get('/companies', async (req, res, next) => {
 app.get('/companies/:id', async (req, res, next) => {
 	// get all the companies info
 	try {
+		// set header to allow other people to view response
+		res.setHeader('Access-Control-Allow-Origin', '*');
+
 		const { id } = req.params;
 		const company = await getOneCompany(id);
 
