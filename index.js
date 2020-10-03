@@ -39,12 +39,14 @@ app.get('/companies/:id', async (req, res, next) => {
 
 		for (let i = 0; i < companyTables.length; i++) {
 			const tableName = companyTables[i]; // Demographics
-			const tableId = company[tableName][0];
+			const tableId = company[tableName] && company[tableName][0];
 
-			const tableData = await getLinkedData(tableName, tableId);
+			if (tableId) {
+				const tableData = await getLinkedData(tableName, tableId);
 
-			// setting it back on the company object
-			company[tableName] = tableData;
+				// setting it back on the company object
+				company[tableName] = tableData;
+			}
 		}
 
 		res.send(company);
