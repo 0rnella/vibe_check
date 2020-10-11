@@ -3,16 +3,19 @@ const base = require('./base');
 
 const linkedCategories = ['Demographics', 'Lawsuits', 'Labor Practices', 'Political Contributions', 'Effect on Ecosystem'];
 
+// copy full data without including the linked categories
 const getDataWithoutLinkedCategories = (fullCompanyData) => {
 	const leanCompanyData = {};
 	const companyKeys = Object.keys(fullCompanyData.fields);
 
+	// copy full data without including the linked categories
 	companyKeys.forEach((key) => {
 		if (!linkedCategories.includes(key)) {
 			leanCompanyData[key] = fullCompanyData.fields[key];
 		}
 	});
 
+	// add the logo
 	leanCompanyData.logo = fullCompanyData.get('logo') && fullCompanyData.get('logo')[0].thumbnails.large.url;
 
 	return leanCompanyData;
@@ -29,7 +32,7 @@ const getCrucialData = (fullData) => {
 	return company;
 };
 
-const getLinkedCategories = async (tableName, id) => {
+const getLinkedRecord = async (tableName, id) => {
 	const { fields } = await base(tableName).find(id);
 	delete fields.name;
 	delete fields.company;
@@ -41,15 +44,20 @@ const getDetailedData = async (fullCompanyData) => {
 
 	for (let i = 0; i < linkedCategories.length; i += 1) {
 		const tableName = linkedCategories[i];
-		const tableId = fullCompanyData.fields[tableName] && fullCompanyData.fields[tableName][0];
+		const tableNameCamel = camelcase(tableName);
 
-		if (tableId) {
+		const linkedRecordIds = fullCompanyData.fields[tableName] || [];
+		const linkedRecords = [];
+
+		// get all data for all linked record ids
+		for (let j = 0; j < linkedRecordIds.length; j += 1) {
+			const linkedRecordId = linkedRecordIds[j];
 			// eslint-disable-next-line no-await-in-loop
-			const tableData = await getLinkedCategories(tableName, tableId);
-
-			const tableNameCamel = camelcase(tableName);
-			companyDetails[tableNameCamel] = tableData;
+			const linkedRecordData = await getLinkedRecord(tableName, linkedRecordId);
+			linkedRecords.push(linkedRecordData);
 		}
+
+		companyDetails[tableNameCamel] = linkedRecords;
 	}
 
 	return companyDetails;
