@@ -1,13 +1,9 @@
 const {
 	getAllCompanies,
-	getOneCompany,
-	getLinkedData,
-	getDetailedData
+	getOneCompany
 } = require('./companies');
 
 module.exports = {
 	getAllCompanies,
-	getOneCompany,
-	getLinkedData,
-	getDetailedData
+	getOneCompany
 };
