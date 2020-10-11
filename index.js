@@ -1,9 +1,10 @@
 const express = require('express');
+
 const {
 	getAllCompanies,
-	getOneCompany,
-	getLinkedData
+	getOneCompany
 } = require('./apiMethods');
+const { getDetailedData } = require('./apiMethods/companies');
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -33,23 +34,9 @@ app.get('/companies/:id', async (req, res, next) => {
 
 		const { id } = req.params;
 		const company = await getOneCompany(id);
+		const companyDetails = await getDetailedData(company);
 
-		// list each key that we want as a string
-		const companyTables = ['Demographics', 'Lawsuits', 'Labor Practices', 'Political Contributions', 'Effect on Ecosystem'];
-
-		for (let i = 0; i < companyTables.length; i++) {
-			const tableName = companyTables[i]; // Demographics
-			const tableId = company[tableName] && company[tableName][0];
-
-			if (tableId) {
-				const tableData = await getLinkedData(tableName, tableId);
-
-				// setting it back on the company object
-				company[tableName] = tableData;
-			}
-		}
-
-		res.send(company);
+		res.send(companyDetails);
 	} catch (error) {
 		next(error);
 	}
