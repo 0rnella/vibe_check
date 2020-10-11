@@ -46,18 +46,27 @@ const getDetailedData = async (fullCompanyData) => {
 		const tableName = linkedCategories[i];
 		const tableNameCamel = camelcase(tableName);
 
-		const linkedRecordIds = fullCompanyData.fields[tableName] || [];
-		const linkedRecords = [];
+		const linkedRecordIds = fullCompanyData.fields[tableName];
 
-		// get all data for all linked record ids
-		for (let j = 0; j < linkedRecordIds.length; j += 1) {
-			const linkedRecordId = linkedRecordIds[j];
-			// eslint-disable-next-line no-await-in-loop
-			const linkedRecordData = await getLinkedRecord(tableName, linkedRecordId);
-			linkedRecords.push(linkedRecordData);
+		if (linkedRecordIds) {
+			const linkedRecords = [];
+			// get all data for all linked record ids
+			for (let j = 0; j < linkedRecordIds.length; j += 1) {
+				const linkedRecordId = linkedRecordIds[j];
+				// eslint-disable-next-line no-await-in-loop
+				const linkedRecordData = await getLinkedRecord(tableName, linkedRecordId);
+				linkedRecords.push(linkedRecordData);
+			}
+
+			// if there are multiple records, return the array
+			// otherwise return the first record
+			if (linkedRecords.length >= 2) {
+				companyDetails[tableNameCamel] = linkedRecords;
+			} else {
+				const singleRecord = linkedRecords[0];
+				companyDetails[tableNameCamel] = singleRecord;
+			}
 		}
-
-		companyDetails[tableNameCamel] = linkedRecords;
 	}
 
 	return companyDetails;
